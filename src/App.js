@@ -9,6 +9,7 @@ import {
   updateDoc,
   doc,
   addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 const style = {
@@ -61,6 +62,9 @@ function App() {
   };
 
   // Delete todos
+  const deleteTodo = async (id) => {
+    await deleteDoc(doc(db, "todos", id));
+  };
 
   return (
     <div className={style.bg}>
@@ -80,7 +84,12 @@ function App() {
         </form>
         <ul>
           {todos.map((todo, id) => (
-            <Todo key={id} todo={todo} toggleComplete={toggleComplete} />
+            <Todo
+              key={id}
+              todo={todo}
+              toggleComplete={toggleComplete}
+              deleteTodo={deleteTodo}
+            />
           ))}
         </ul>
         {!todos.length ? null : (
